@@ -151,7 +151,7 @@ export default class StockInformation extends React.Component<IStockInformationP
 
             // build the state variable to render the stock information
             const stockInfo: IStockInformationData = {
-              symbol: data["Meta Data"]["2. Symbol"],
+              symbol: data!["Meta Data"]!["2. Symbol"],
               lastRefreshed: now,
               lastData: {
                 open: lastAVDataSeries["1. open"],

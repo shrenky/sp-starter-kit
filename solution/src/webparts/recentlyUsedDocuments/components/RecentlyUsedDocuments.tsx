@@ -143,7 +143,7 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
       return;
     }
 
-    return day_diff === 0 && (
+    return (day_diff === 0 && (
            diff < 60 && strings.DateJustNow ||
            diff < 120 && strings.DateMinute ||
            diff < 3600 && `${Math.floor( diff / 60 )} ${strings.DateMinutesAgo}` ||
@@ -151,7 +151,7 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
            diff < 86400 && `${Math.floor( diff / 3600 )} ${strings.DateHoursAgo}`) ||
            day_diff == 1 && strings.DateDay ||
            day_diff <= 30 && `${day_diff} ${strings.DateDaysAgo}` ||
-           day_diff > 30 && `${Math.ceil(day_diff / 7)} ${strings.DateWeeksAgo}`;
+           day_diff > 30 && `${Math.ceil(day_diff / 7)} ${strings.DateWeeksAgo}`) || undefined;
   }
 
   /**
