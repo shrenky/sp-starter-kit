@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { IPortalFooterProps, IPortalFooterState } from '.';
 import styles from './PortalFooter.module.scss';
-import { CommandBar,
-  IContextualMenuItem,
-  DefaultButton,
+import { DefaultButton,
   ActionButton,
   Label, 
   MessageBar,
   MessageBarType,
   autobind} from 'office-ui-fabric-react';
 import * as strings from 'PortalFooterApplicationCustomizerStrings';
-import { ILinkGroup } from './ILinkGroup';
 import { Links } from '../Links';
 import { IPortalFooterEditResult } from '../PortalFooter/IPortalFooterEditResult';
 
@@ -55,7 +52,7 @@ export class PortalFooter extends React.Component<IPortalFooterProps, IPortalFoo
       // hide the message after 2 sec
       window.setTimeout(() => {
         this.setState({
-          myLinksSaved: null,
+          myLinksSaved: undefined,
           });
         }, 2000);
     }

@@ -2,6 +2,6 @@ import { IContact } from '.';
 
 export interface IRecentContactsState {
   recentContacts: IContact[];
-  error: string;
+  error?: string;
   loading: boolean;
 }

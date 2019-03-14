@@ -6,9 +6,9 @@ import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 import * as strings from 'BannerWebPartStrings';
 
 export class Banner extends React.Component<IBannerProps, {}> {
-  private _scrollElm: HTMLElement = null;
-  private _scrollElmRect: ClientRect = null;
-  private _parallaxElm: HTMLElement = null;
+  private _scrollElm: HTMLElement | undefined = undefined;
+  private _scrollElmRect: ClientRect | undefined = undefined;
+  private _parallaxElm: HTMLElement | undefined = undefined;
 
   /**
    * Opens the property pane of the web part for configuration
@@ -20,12 +20,12 @@ export class Banner extends React.Component<IBannerProps, {}> {
   /**
    * Finds the scrollable parent
    */
-  private _getScrollableParent(): HTMLElement {
+  private _getScrollableParent(): HTMLElement | undefined {
     const scrollElm = document.querySelector('div[data-is-scrollable="true"]') as HTMLElement;
     if (scrollElm) {
       return scrollElm;
     }
-    return null;
+    return undefined;
   }
 
   /**
@@ -34,26 +34,30 @@ export class Banner extends React.Component<IBannerProps, {}> {
    */
   private _setTranslate(vector: number) {
     const r = `translate3d(0px, ${vector}px, 0px)`;
-    this._parallaxElm.style.transform = r;
+    if (this._parallaxElm) {
+      this._parallaxElm.style.transform = r;
+    }
   }
 
   /**
    * Set the parallax effect to the banner image element
    */
   private _setParallaxEffect = () => {
-    window.requestAnimationFrame(() => {
-      const scrollElmTop = this._scrollElmRect.top;
-      const clientElmRect = this.props.domElement.getBoundingClientRect();
-      const clientElmTop = clientElmRect.top;
-      const clientElmBottom = clientElmRect.bottom;
+    if (this._scrollElmRect) {
+      window.requestAnimationFrame(() => {
+        const scrollElmTop = this._scrollElmRect!.top;
+        const clientElmRect = this.props.domElement.getBoundingClientRect();
+        const clientElmTop = clientElmRect.top;
+        const clientElmBottom = clientElmRect.bottom;
 
-      if (clientElmTop < scrollElmTop && clientElmBottom > scrollElmTop) {
-        const vector = Math.round((scrollElmTop - clientElmTop) / 1.81);
-        this._setTranslate(vector);
-      } else if (clientElmTop >= scrollElmTop) {
-        this._setTranslate(0);
-      }
-    });
+        if (clientElmTop < scrollElmTop && clientElmBottom > scrollElmTop) {
+          const vector = Math.round((scrollElmTop - clientElmTop) / 1.81);
+          this._setTranslate(vector);
+        } else if (clientElmTop >= scrollElmTop) {
+          this._setTranslate(0);
+        }
+      });
+    }
   }
 
   private _removeParallaxBinding() {
@@ -121,18 +125,18 @@ export class Banner extends React.Component<IBannerProps, {}> {
               this.props.bannerLink ? (
                 <a href={this.props.bannerLink} title={escape(this.props.bannerText)}>{escape(this.props.bannerText)}</a>
               ) : (
-                <span>{escape(this.props.bannerText)}</span>
-              )
+                  <span>{escape(this.props.bannerText)}</span>
+                )
             }
           </div>
         </div>
       );
     } else {
       return <Placeholder iconName='ImagePixel'
-                          iconText={strings.BannerPlaceholderIconText}
-                          description={strings.BannerPlaceholderDescription}
-                          buttonLabel={strings.BannerPlaceholderBtnLabel}
-                          onConfigure={this._onConfigure} />;
+        iconText={strings.BannerPlaceholderIconText}
+        description={strings.BannerPlaceholderDescription}
+        buttonLabel={strings.BannerPlaceholderBtnLabel}
+        onConfigure={this._onConfigure} />;
     }
   }
 }

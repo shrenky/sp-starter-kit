@@ -8,7 +8,6 @@ import {
   PlaceholderContent,
   PlaceholderName
 } from '@microsoft/sp-application-base';
-import { Dialog } from '@microsoft/sp-dialog';
 
 import * as strings from 'CollabFooterApplicationCustomizerStrings';
 
@@ -19,7 +18,7 @@ import { ICollabFooterEditResult } from './components/ICollabFooterEditResult';
 // import additional controls/components
 import { IContextualMenuItem, ContextualMenuItemType, autobind } from 'office-ui-fabric-react';
 import SPTaxonomyService from '../../services/SPTaxonomyService';
-import { ITermSets, ITermSet, ITerms, ITerm } from '../../services/SPTaxonomyTypes';
+import { ITerm } from '../../services/SPTaxonomyTypes';
 import SPUserProfileService from '../../services/SPUserProfileService';
 import MyLinksDialog from '../../common/myLinks/MyLinksDialog';
 import IMyLink from '../../common/myLinks/IMyLink';
@@ -114,7 +113,7 @@ export default class CollabFooterApplicationCustomizer
           : null,
       subMenuProps: menuItem.Terms.length > 0 ?
           { items : menuItem.Terms.map((i) => { return(this.projectTermToMenuItem(i, ContextualMenuItemType.Normal)); }) }
-          : null,
+          : undefined,
       isSubMenu: itemType !== ContextualMenuItemType.Header,
     });
   }
@@ -126,7 +125,7 @@ export default class CollabFooterApplicationCustomizer
       name: menuItem.title,
       itemType: itemType,
       href: menuItem.url,
-      subMenuProps: null,
+      subMenuProps: undefined,
       isSubMenu: itemType !== ContextualMenuItemType.Header,
     });
   }
@@ -135,8 +134,8 @@ export default class CollabFooterApplicationCustomizer
   private async _editMyLinks(): Promise<ICollabFooterEditResult> {
 
     let result: ICollabFooterEditResult = {
-      editResult: null,
-      myLinks: null,
+      editResult: undefined,
+      myLinks: [],
     };
 
     const myLinksDialog: MyLinksDialog = new MyLinksDialog(this._myLinks);

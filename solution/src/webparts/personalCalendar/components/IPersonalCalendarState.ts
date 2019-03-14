@@ -1,7 +1,7 @@
 import { IMeeting } from '.';
 
 export interface IPersonalCalendarState {
-  error: string;
+  error?: string;
   loading: boolean;
   meetings: IMeeting[];
   renderedDateTime: Date;

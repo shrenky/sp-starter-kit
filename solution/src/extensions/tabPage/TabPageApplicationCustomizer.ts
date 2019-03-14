@@ -1,6 +1,6 @@
 import { override } from '@microsoft/decorators';
-import React = require('react');
-import ReactDom = require('react-dom');
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {
   PlaceholderContent,
   BaseApplicationCustomizer,
@@ -65,9 +65,10 @@ export default class TabPageApplicationCustomizer extends BaseApplicationCustomi
         break;
     }
 
-    const pageUrl: string = `${this.context.pageContext.list.serverRelativeUrl}/${pageName}`;
-
-    location.href = pageUrl;
+    if (this.context.pageContext.list) {
+      const pageUrl: string = `${this.context.pageContext.list.serverRelativeUrl}/${pageName}`;
+      location.href = pageUrl;
+    }
   }
 
   /**
@@ -139,7 +140,7 @@ export default class TabPageApplicationCustomizer extends BaseApplicationCustomi
     );
 
     // render the UI using a React component
-    ReactDom.render(element, TabPageApplicationCustomizer._topPlaceholder.domElement);
+    ReactDOM.render(element, TabPageApplicationCustomizer._topPlaceholder.domElement);
 
     // if the user requested the site without a specific page, redirect to the
     // preferred home page. This must be done after rendering, to be able to support

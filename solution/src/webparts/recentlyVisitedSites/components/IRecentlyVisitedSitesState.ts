@@ -2,7 +2,7 @@ import { IWebs } from ".";
 
 export interface IRecentlyVisitedSitesState {
   usedSites: IWebs[];
-  error: string;
+  error?: string;
   loading: boolean;
 }
 

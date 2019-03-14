@@ -8,7 +8,6 @@ import * as strings from 'CollabFooterApplicationCustomizerStrings';
 
 // import additional controls/components
 import { CommandBar, IContextualMenuItem, ContextualMenuItemType, MessageBar, MessageBarType, autobind } from 'office-ui-fabric-react';
-import MyLinksDialog from '../../../common/myLinks/MyLinksDialog';
 
 export default class CollabFooter extends React.Component<ICollabFooterProps, ICollabFooterState> {
 
@@ -23,7 +22,7 @@ export default class CollabFooter extends React.Component<ICollabFooterProps, IC
     };
   }
 
-  public render(): React.ReactElement<ICollabFooterProps> {
+  public render(): React.ReactElement<ICollabFooterProps>|undefined {
 
     console.log("CollabFooter.render");
     console.log(this.state.myLinks);
@@ -79,7 +78,7 @@ export default class CollabFooter extends React.Component<ICollabFooterProps, IC
         </div>
       );
     } else {
-      return (null);
+      return (undefined);
     }
   }
 
@@ -98,7 +97,7 @@ export default class CollabFooter extends React.Component<ICollabFooterProps, IC
           // hide the message after 2 sec
           window.setTimeout(() => {
             this.setState({
-              myLinksSaved: null,
+              myLinksSaved: undefined,
               });
             }, 2000);
         }

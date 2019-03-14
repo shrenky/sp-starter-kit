@@ -2,9 +2,6 @@ import { override } from '@microsoft/decorators';
 import {
   BaseApplicationCustomizer, PlaceholderContent, PlaceholderName
 } from '@microsoft/sp-application-base';
-import { Dialog } from '@microsoft/sp-dialog';
-
-import * as strings from 'AlertNotiticationApplicationCustomizerStrings';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { IHubSiteDataResponse, IHubSiteData } from './IHubSiteData';
 import { IAlert, IAlertItem, AlertType } from './IAlert';
@@ -43,8 +40,8 @@ export default class AlertNotiticationApplicationCustomizer
    * hub site.
    * If the is not connected to a hub sites, returns null;
    */
-  private _getConnectedHubSiteData(): Promise<IHubSiteData> {
-    return new Promise<IHubSiteData>((resolve: (connectedHubSiteData: IHubSiteData) => void, reject: (error: any) => void): void => {
+  private _getConnectedHubSiteData(): Promise<IHubSiteData | undefined> {
+    return new Promise<IHubSiteData | undefined>((resolve: (connectedHubSiteData: IHubSiteData | undefined) => void, reject: (error: any) => void): void => {
       // suppress loading metadata to minimize the amount of data sent over the network
       const headers: Headers = new Headers();
       headers.append('accept', 'application/json;odata.metadata=none');
@@ -59,13 +56,13 @@ export default class AlertNotiticationApplicationCustomizer
         .then((res: IHubSiteDataResponse): void => {
           // the site is not connected to a hub site and is not a hub site itself
           if (res["@odata.null"] === true) {
-            resolve(null);
+            resolve(undefined);
             return;
           }
 
           try {
             // parse the hub site data from the value property to JSON
-            const hubSiteData: IHubSiteData = JSON.parse(res.value);
+            const hubSiteData: IHubSiteData = JSON.parse(res.value!);
             resolve(hubSiteData);
           }
           catch (e) {
@@ -106,7 +103,7 @@ export default class AlertNotiticationApplicationCustomizer
             return {
               type: AlertType[alert.PnPAlertType],
               message: alert.PnPAlertMessage,
-              moreInformationUrl: alert.PnPAlertMoreInformation ? alert.PnPAlertMoreInformation.Url : null
+              moreInformationUrl: alert.PnPAlertMoreInformation ? alert.PnPAlertMoreInformation.Url : ""
             };
           });
           resolve(upcomingAlerts);
@@ -158,7 +155,9 @@ export default class AlertNotiticationApplicationCustomizer
         );
 
         // render the UI using a React component
-        ReactDom.render(element, AlertNotiticationApplicationCustomizer._topPlaceholder.domElement);
+        if (AlertNotiticationApplicationCustomizer._topPlaceholder) {
+          ReactDom.render(element, AlertNotiticationApplicationCustomizer._topPlaceholder.domElement);
+        }
       })
       .catch((error: any): void => {
         if (error === AlertNotiticationApplicationCustomizer.NO_HUBSITE_DATA) {

@@ -4,5 +4,5 @@ export interface IFollowedSitesState {
   following: IFollowedResult[];
   allFollowing: IFollowedResult[];
   loading: boolean;
-  error: string;
+  error: string | undefined;
 }

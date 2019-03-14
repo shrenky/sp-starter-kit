@@ -1,5 +1,5 @@
 import { ILink } from "./ILink";
 
 export interface ILinksState {
-  groups: { [group: string]: ILink[]; };
+  groups: { [group: string]: ILink[]; } | undefined;
 }

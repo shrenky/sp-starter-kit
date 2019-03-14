@@ -17,8 +17,7 @@ export class PersonalTasks extends React.Component<IPersonalTasksProps, IPersona
 
     this.state = {
       tasks: [],
-      loading: false,
-      error: undefined
+      loading: false
     };
 
     this._currentDomain = props.userName.substr(props.userName.indexOf('@') + 1);
@@ -35,7 +34,6 @@ export class PersonalTasks extends React.Component<IPersonalTasksProps, IPersona
     // update state to indicate loading and remove any previously loaded
     // tasks
     this.setState({
-      error: null,
       loading: true,
       tasks: []
     });
@@ -61,6 +59,10 @@ export class PersonalTasks extends React.Component<IPersonalTasksProps, IPersona
             // sort tasks ascending by their due date. This is necessary
             // because MS Graph returns unsorted results
             tasks: res.value.sort((t1: ITask, t2: ITask): number => {
+              if (!t1.dueDateTime || !t2.dueDateTime)
+              {
+                return 0;
+              }
               if (t1.dueDateTime < t2.dueDateTime) return -1;
               if (t1.dueDateTime > t2.dueDateTime) return 1;
               return 0;
@@ -98,7 +100,7 @@ export class PersonalTasks extends React.Component<IPersonalTasksProps, IPersona
    * returns only day and month, otherwise day, month and year.
    * @param dueDateTime String containing the task's due date in ISO format
    */
-  private _getDueDate(dueDateTime?: string): string {
+  private _getDueDate(dueDateTime?: string): string | undefined {
     if (!dueDateTime) {
       return dueDateTime;
     }

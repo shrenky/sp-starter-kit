@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './RecentlyUsedDocuments.module.scss';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { WebPartTitle } from '@pnp/spfx-controls-react/lib/WebPartTitle';
 import * as strings from 'RecentlyUsedDocumentsWebPartStrings';
 import { List } from 'office-ui-fabric-react/lib/List';
@@ -18,7 +17,6 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
 
     this.state = {
       recentDocs: [],
-      error: null,
       loading: true
     };
   }
@@ -29,8 +27,7 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
   private _fetchRecentDocuments() {
     if (this.props.graphClient) {
       this.setState({
-        loading: true,
-        error: null
+        loading: true
       });
 
       const filter = this._excludeTypes.map(type => `resourceVisualization/type ne '${type}'`).join(' and ');
@@ -90,7 +87,7 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
    * @param date
    */
   private _getTime(date?: Date) {
-    return date !== null ? date.getTime() : 0;
+    return date ? date.getTime() : 0;
   }
 
   /**
@@ -137,7 +134,7 @@ export default class RecentlyUsedDocuments extends React.Component<IRecentlyUsed
   /**
    * Returns the relative date for the document activity
    */
-  private _relativeDate(crntDate: string): string {
+  private _relativeDate(crntDate: string): string | undefined {
     const date = new Date((crntDate || "").replace(/-/g,"/").replace(/[TZ]/g," "));
     const diff = (((new Date()).getTime() - date.getTime()) / 1000);
     const day_diff = Math.floor(diff / 86400);

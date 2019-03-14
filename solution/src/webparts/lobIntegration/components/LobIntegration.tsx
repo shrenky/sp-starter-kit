@@ -2,7 +2,6 @@ import * as React from 'react';
 import styles from './LobIntegration.module.scss';
 import { ILobIntegrationProps } from './ILobIntegrationProps';
 import { ILobIntegrationState } from './ILobIntegrationState';
-import { escape } from '@microsoft/sp-lodash-subset';
 
 // import additional controls/components
 import * as strings from 'LobIntegrationWebPartStrings';
@@ -73,7 +72,7 @@ export default class LobIntegration extends React.Component<ILobIntegrationProps
     this.state = {
       loading: false,
       searchFor: "",
-      customers: null,
+      customers: undefined,
     };
   }
 
@@ -91,7 +90,7 @@ export default class LobIntegration extends React.Component<ILobIntegrationProps
 
     // update the component state while listing customers
     this.setState({
-      customers: null,
+      customers: undefined,
       loading: true,
     });
 
@@ -137,7 +136,7 @@ export default class LobIntegration extends React.Component<ILobIntegrationProps
 
     // update the component state while searching customers
     this.setState({
-      customers: null,
+      customers: undefined,
       loading: true,
     });
 
@@ -176,7 +175,7 @@ export default class LobIntegration extends React.Component<ILobIntegrationProps
 
   public render(): React.ReactElement<ILobIntegrationProps> {
 
-    let contents: JSX.Element = null;
+    let contents: JSX.Element | undefined = undefined;
 
     if (!this.props.needsConfiguration) {
       contents = (

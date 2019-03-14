@@ -70,7 +70,7 @@ export class Paging extends React.Component<IPagingProps, IPagingState> {
   /**
    * Default React render method
    */
-  public render(): React.ReactElement<IPagingProps> {
+  public render(): React.ReactElement<IPagingProps> | undefined {
     if (this.props.nrOfItems && this.props.allItems && this.props.allItems.length > this.props.nrOfItems) {
       return (
         <div className={styles.paging}>
@@ -91,6 +91,6 @@ export class Paging extends React.Component<IPagingProps, IPagingState> {
       );
     }
 
-    return null;
+    return undefined;
   }
 }

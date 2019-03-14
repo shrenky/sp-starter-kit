@@ -10,9 +10,9 @@ export interface IPeopleDirectoryState {
     loading: boolean;
     /**
      * Contains the error message that occurred while loading the data.
-     * If no error message occurred, null.
+     * If no error message occurred, undefined.
      */
-    errorMessage: string;
+    errorMessage?: string;
     /**
      * Currently selected tab, eg. 'A'
      */

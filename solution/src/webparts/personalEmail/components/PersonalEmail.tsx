@@ -29,7 +29,6 @@ export class PersonalEmail extends React.Component<IPersonalEmailProps, IPersona
     // update state to indicate loading and remove any previously loaded
     // messages
     this.setState({
-      error: null,
       loading: true,
       messages: []
     });

@@ -4,10 +4,8 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'PeopleDirectoryWebPartStrings';
 import { PeopleDirectory, IPeopleDirectoryProps } from './components/PeopleDirectory/';
 
 export interface IPeopleDirectoryWebPartProps {

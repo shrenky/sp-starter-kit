@@ -6,7 +6,6 @@ import {
   IPropertyPaneConfiguration
 } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'RecentlyVisitedSitesWebPartStrings';
 import { RecentlyVisitedSites, IRecentlyVisitedSitesProps } from './components';
 import { MSGraphClient } from '@microsoft/sp-http';
 

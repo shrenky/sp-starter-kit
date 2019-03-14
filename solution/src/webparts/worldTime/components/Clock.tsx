@@ -40,7 +40,7 @@ export class Clock extends React.Component<IClockProps, IClockState> {
         const utcNow: Date = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
 
         // determine the final date and time, considering DST, too
-        const dateTimeWithOffset: Date = new Date(utcNow.getTime() + (this.props.timeZoneOffset * 60000) + (isDST ? 60 * 60000 : 0));
+        const dateTimeWithOffset: Date = new Date(utcNow.getTime() + ((this.props.timeZoneOffset || 0) * 60000) + (isDST ? 60 * 60000 : 0));
 
         return(dateTimeWithOffset);
     }

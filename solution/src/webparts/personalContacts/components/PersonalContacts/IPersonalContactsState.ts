@@ -2,6 +2,6 @@ import { IContact } from '..';
 
 export interface IPersonalContactsState {
   contacts: IContact[];
-  error: string;
+  error?: string;
   loading: boolean;
 }

@@ -32,7 +32,7 @@ export default class PersonalCalendar extends React.Component<IPersonalCalendarP
     // update state to indicate loading and remove any previously loaded
     // meetings
     this.setState({
-      error: null,
+      error: undefined,
       loading: true,
       meetings: []
     });

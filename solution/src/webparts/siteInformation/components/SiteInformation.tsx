@@ -20,9 +20,9 @@ export default class SiteInformation extends React.Component<ISiteInformationPro
     super(props);
   }
 
-  private getInitials(fullName: string): string {
+  private getInitials(fullName: string): string | undefined {
     if (!fullName) {
-      return (null);
+      return (undefined);
     }
 
     let parts: string[] = fullName.split(' ');

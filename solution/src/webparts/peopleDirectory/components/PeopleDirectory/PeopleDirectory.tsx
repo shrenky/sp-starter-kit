@@ -27,7 +27,6 @@ export class PeopleDirectory extends React.Component<IPeopleDirectoryProps, IPeo
 
     this.state = {
       loading: false,
-      errorMessage: null,
       selectedIndex: 'A',
       searchQuery: '',
       people: []
@@ -79,12 +78,11 @@ export class PeopleDirectory extends React.Component<IPeopleDirectoryProps, IPeo
    * @param index Selected tab in the index navigation or 'Search', if the user is searching
    * @param searchQuery Current search query or empty string if not searching
    */
-  private _loadPeopleInfo(index: string, searchQuery: string): void {
+  private _loadPeopleInfo(index: string, searchQuery?: string): void {
     // update the UI notifying the user that the component will now load its data
     // clear any previously set error message and retrieved list of people
     this.setState({
       loading: true,
-      errorMessage: null,
       people: []
     });
 
@@ -95,7 +93,7 @@ export class PeopleDirectory extends React.Component<IPeopleDirectoryProps, IPeo
     // if no search query has been specified, retrieve people whose last name begins with the
     // specified letter. if a search query has been specified, escape any ' (single quotes)
     // by replacing them with two '' (single quotes). Without this, the search query would fail
-    const query: string = searchQuery === null ? `LastName:${index}*` : searchQuery.replace(/'/g, `''`);
+    const query: string = searchQuery === undefined ? `LastName:${index}*` : searchQuery.replace(/'/g, `''`);
 
     // retrieve information about people using SharePoint People Search
     // sort results ascending by the last name
@@ -207,7 +205,7 @@ export class PeopleDirectory extends React.Component<IPeopleDirectoryProps, IPeo
   public componentDidMount(): void {
     // load information about people after the component has been
     // initiated on the page
-    this._loadPeopleInfo(this.state.selectedIndex, null);
+    this._loadPeopleInfo(this.state.selectedIndex, undefined);
   }
 
   public render(): React.ReactElement<IPeopleDirectoryProps> {

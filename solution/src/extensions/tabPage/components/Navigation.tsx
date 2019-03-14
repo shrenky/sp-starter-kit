@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { INavigationProps, INavigationState } from '.';
 import styles from './Navigation.module.scss';
-import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
-import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import * as strings from 'TabPageApplicationCustomizerStrings';
 

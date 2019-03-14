@@ -7,21 +7,13 @@ import { IDateTimePickerState } from './IDateTimePickerState';
  * Common Infrastructure
  */
 import {
-  BaseComponent,
-  assign,
   autobind
 } from 'office-ui-fabric-react/lib/Utilities';
-
-/**
- * Label
- */
-import { Label } from 'office-ui-fabric-react/lib/Label';
 
 /**
  * Text Field
  */
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
 
 /**
  * Date Picker
@@ -101,7 +93,7 @@ export class DateTimePicker extends React.Component<IDateTimePickerProps, IDateT
         super(props);
 
         this.state = {
-            date: (this.props.initialDateTime != null) ? this.props.initialDateTime : null,
+            date: (this.props.initialDateTime != null) ? this.props.initialDateTime : undefined,
             hours: (this.props.initialDateTime != null) ? this.props.initialDateTime.getHours() : 0,
             minutes: (this.props.initialDateTime != null) ? this.props.initialDateTime.getMinutes() : 0,
             seconds: (this.props.initialDateTime != null) ? this.props.initialDateTime.getSeconds() : 0,
@@ -224,12 +216,12 @@ export class DateTimePicker extends React.Component<IDateTimePickerProps, IDateT
       return;
     }
     var finalDate: Date = new Date(this.state.date.toISOString());
-    finalDate.setHours(this.state.hours);
-    finalDate.setMinutes(this.state.minutes);
-    finalDate.setSeconds(this.props.includeSeconds ? this.state.seconds : 0);
+    finalDate.setHours(this.state.hours!);
+    finalDate.setMinutes(this.state.minutes!);
+    finalDate.setSeconds(this.props.includeSeconds ? this.state.seconds! : 0);
 
+    var finalDateAsString: string = '';
     if (finalDate != null) {
-      var finalDateAsString: string = '';
       if (this.props.formatDate) {
         finalDateAsString = this.props.formatDate(finalDate);
       } else {

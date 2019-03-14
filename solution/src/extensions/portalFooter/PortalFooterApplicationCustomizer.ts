@@ -55,7 +55,7 @@ export default class PortalFooterApplicationCustomizer
   public async onInit(): Promise<void> {
 
     // get the hub site URL
-    let hubSiteUrl: string = await this.getHubSiteUrl();
+    let hubSiteUrl: string | undefined = await this.getHubSiteUrl();
 
     if (!hubSiteUrl) {
       console.log('Current site is not part of an hub and the footer will fallback to local list of links.');
@@ -77,8 +77,8 @@ export default class PortalFooterApplicationCustomizer
     Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
 
     let linksListTitle: string = this.properties.linksListTitle;
-    let copyright: string = this.properties.copyright;
-    let support: string = this.properties.support;
+    let copyright: string | undefined = this.properties.copyright;
+    let support: string | undefined = this.properties.support;
     let personalItemsStorageProperty: string = this.properties.personalItemsStorageProperty;
     if (!linksListTitle || !copyright || !support || !personalItemsStorageProperty) {
       console.log('Provide valid properties for PortalFooterApplicationCustomizer!');
@@ -92,8 +92,8 @@ export default class PortalFooterApplicationCustomizer
   private async _editLinks(): Promise<IPortalFooterEditResult> {
 
     let result: IPortalFooterEditResult = {
-      editResult: null,
-      links: null,
+      editResult: undefined,
+      links: [],
     };
 
     const myLinksDialog: MyLinksDialog = new MyLinksDialog(this._myLinks);
@@ -120,9 +120,9 @@ export default class PortalFooterApplicationCustomizer
   }
 
   // retrieves the URL of the hub site for the current site
-  private async getHubSiteUrl(): Promise<string> {
+  private async getHubSiteUrl(): Promise<string | undefined> {
 
-    let result: string = null;
+    let result: string | undefined = undefined;
 
     try {
       // get the hub site data via REST API
@@ -227,8 +227,8 @@ export default class PortalFooterApplicationCustomizer
       PortalFooter,
       {
         links: links,
-        copyright: this.properties.copyright,
-        support: this.properties.support,
+        copyright: this.properties.copyright!,
+        support: this.properties.support!,
         onLinksEdit: this._editLinks,
       }
     );

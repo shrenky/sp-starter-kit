@@ -1,5 +1,5 @@
 export interface IRecentlyUsedDocumentsState {
   recentDocs: any[];
-  error: string;
+  error?: string;
   loading: boolean;
 }

@@ -8,7 +8,6 @@ export class Person extends React.Component<IPersonProps, IPersonState> {
     super(props);
 
     this.state = {
-      image: null
     };
   }
 
@@ -62,12 +61,12 @@ export class Person extends React.Component<IPersonProps, IPersonState> {
    */
   public render(): React.ReactElement<IPersonProps> {
     const { person } = this.props;
-    let phoneNr: string = null;
+    let phoneNr: string | undefined;
     if (person.phones && person.phones.length > 0) {
       phoneNr = person.phones[0].number;
     }
 
-    let email: string = null;
+    let email: string | undefined;
     if (person.scoredEmailAddresses && person.scoredEmailAddresses.length > 0) {
       email = person.scoredEmailAddresses[0].address;
     }

@@ -71,12 +71,15 @@ export class PeopleCallout extends React.Component<IPeopleCalloutProps, IPeopleC
   private _onCopyClicked = (elementName: string) => event => {
     let copyText = document.getElementById(elementName);
     var range = document.createRange();
-    range.selectNode(copyText);
+    if (copyText) {
+      range.selectNode(copyText);
+    }
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
 
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
     event.target.className = "ms-Icon ms-Icon--StatusCircleCheckmark";
+
   }
 }

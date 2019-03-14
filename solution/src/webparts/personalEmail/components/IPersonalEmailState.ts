@@ -1,7 +1,7 @@
 import { IMessage } from '.';
 
 export interface IPersonalEmailState {
-  error: string;
+  error?: string;
   loading: boolean;
   messages: IMessage[];
 }

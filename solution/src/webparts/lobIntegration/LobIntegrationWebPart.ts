@@ -12,7 +12,7 @@ import { DisplayMode } from '@microsoft/sp-core-library';
 import * as strings from 'LobIntegrationWebPartStrings';
 import LobIntegration from './components/LobIntegration';
 import { ILobIntegrationProps } from './components/ILobIntegrationProps';
-import { ILobIntegrationWebPartProps, serviceType } from './ILobIntegrationWebPartProps';
+import { ILobIntegrationWebPartProps } from './ILobIntegrationWebPartProps';
 
 export default class LobIntegrationWebPart extends BaseClientSideWebPart<ILobIntegrationWebPartProps> {
 

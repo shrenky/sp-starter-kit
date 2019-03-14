@@ -17,10 +17,10 @@ export default class FollowedSites extends React.Component<IFollowedSitesProps, 
     super(props);
 
     this.state = {
-      following: null,
+      following: [],
       allFollowing: [],
       loading: true,
-      error: null
+      error: undefined
     };
   }
 
@@ -30,7 +30,7 @@ export default class FollowedSites extends React.Component<IFollowedSitesProps, 
   private _fetchFollowedSites(): void {
     this.setState({
       loading: true,
-      error: null
+      error: undefined
     });
 
     // Types 4 === sites

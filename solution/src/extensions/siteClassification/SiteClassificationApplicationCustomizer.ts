@@ -8,7 +8,6 @@ import {
   PlaceholderContent,
   PlaceholderName
 } from '@microsoft/sp-application-base';
-import { Dialog } from '@microsoft/sp-dialog';
 
 import * as strings from 'SiteClassificationApplicationCustomizerStrings';
 
@@ -78,8 +77,10 @@ export default class SiteClassificationApplicationCustomizer
             }
           );
 
-          ReactDom.render(element, this._headerPlaceholder.domElement);
+          if (this._headerPlaceholder) {
+            ReactDom.render(element, this._headerPlaceholder.domElement);
           }
+        }
       });
     }
 

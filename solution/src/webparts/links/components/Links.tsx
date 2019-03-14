@@ -3,12 +3,11 @@ import styles from './Links.module.scss';
 import * as strings from 'LinksWebPartStrings';
 import { ILinksProps } from './ILinksProps';
 import { ILinksState } from './ILinksState';
-import { escape, groupBy, toPairs, sortBy, fromPairs } from '@microsoft/sp-lodash-subset';
+import { groupBy, toPairs, sortBy, fromPairs } from '@microsoft/sp-lodash-subset';
 import { Link } from 'office-ui-fabric-react/lib/components/Link';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { ILink } from './ILink';
 
 const NO_GROUP_NAME = "..NOGROUPNAME..";
 
@@ -18,7 +17,7 @@ export default class Links extends React.Component<ILinksProps, ILinksState> {
     super(props);
 
     this.state = {
-      groups: null
+      groups: undefined
     };
   }
 
@@ -38,7 +37,7 @@ export default class Links extends React.Component<ILinksProps, ILinksState> {
       });
     } else {
       this.setState({
-        groups: null
+        groups: undefined
       });
     }
   }
@@ -89,7 +88,7 @@ export default class Links extends React.Component<ILinksProps, ILinksState> {
                   }
                   {
                     // Loop over all links per group
-                    sortBy(this.state.groups[groupName], link => link.title.toLowerCase()).map(link => (
+                    this.state.groups && sortBy(this.state.groups[groupName], link => link.title.toLowerCase()).map(link => (
                       <div className={`${styles.column} ${styles.link}`}>
                         <Link title={link.title} href={link.url} target={link.target}>
                           {

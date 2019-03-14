@@ -3,14 +3,13 @@ import { Log } from '@microsoft/sp-core-library';
 import {
   BaseApplicationCustomizer
 } from '@microsoft/sp-application-base';
-import { Dialog } from '@microsoft/sp-dialog';
 
 import { IRedirectApplicationCustomizerProperties } from './IRedirectApplicationCustomizerProperties';
 import { IRedirection } from './IRedirection';
 import * as strings from 'RedirectApplicationCustomizerStrings';
 
 // import additional controls/components
-import { sp, CamlQuery, ListEnsureResult, UrlFieldFormatType, Field, FieldAddResult } from "@pnp/sp";
+import { sp, CamlQuery, ListEnsureResult, UrlFieldFormatType, FieldAddResult } from "@pnp/sp";
 
 const LOG_SOURCE: string = 'RedirectApplicationCustomizer';
 
@@ -38,10 +37,10 @@ export default class RedirectApplicationCustomizer
     const currentPageRelativeUrl: string = this.context.pageContext.legacyPageContext.serverRequestPath;
 
     // search for a redirection rule for the current page, if any
-    const redirection: IRedirection = await this.loadRedirectionForCurrentPage(
+    const redirection: IRedirection | undefined = await this.loadRedirectionForCurrentPage(
       this.properties.redirectionsListTitle, currentPageRelativeUrl);
 
-    if (redirection != null) {
+    if (redirection) {
       console.log(redirection);
 
       // redirect to the target page, if any
@@ -49,9 +48,9 @@ export default class RedirectApplicationCustomizer
     }
   }
 
-  private async loadRedirectionForCurrentPage(redirectionsListTitle: string, currentPageRelativeUrl: string): Promise<IRedirection> {
+  private async loadRedirectionForCurrentPage(redirectionsListTitle: string, currentPageRelativeUrl: string): Promise<IRedirection | undefined> {
 
-    let result: IRedirection = null;
+    let result: IRedirection | undefined = undefined;
 
     // first of all, exclude redirection for the list of redirections
     if (currentPageRelativeUrl.indexOf('Lists/PnPRedirections/AllItems.aspx') < 0) {
@@ -129,9 +128,9 @@ export default class RedirectApplicationCustomizer
         } else {
           // the list already exists, double check the fields
           try {
-            const sourceUrlField: Field = await ensureResult.list.fields.getByInternalNameOrTitle("PnPSourceUrl").get();
-            const destinationUrlField: Field = await ensureResult.list.fields.getByInternalNameOrTitle("PnPDestinationUrl").get();
-            const redirectionEnabledField: Field = await ensureResult.list.fields.getByInternalNameOrTitle("PnPRedirectionEnabled").get();
+            await ensureResult.list.fields.getByInternalNameOrTitle("PnPSourceUrl").get();
+            await ensureResult.list.fields.getByInternalNameOrTitle("PnPDestinationUrl").get();
+            await ensureResult.list.fields.getByInternalNameOrTitle("PnPRedirectionEnabled").get();
 
             // if it is all good, then the list is ready to be used
             result = true;

@@ -56,7 +56,8 @@ export default class LinksWebPart extends BaseClientSideWebPart<ILinksWebPartPro
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    let groups = [];
+    // Not all that happy with this clean up.  
+    let groups;
     if (this.properties.groupData && this.properties.groupData.length > 0) {
       groups = this.properties.groupData.map((group: any) => ({ key: group.title, text: group.title }));
     }

@@ -40,7 +40,7 @@ export default class StockInformationWebPart extends BaseClientSideWebPart<IStoc
   public async render(): Promise<void> {
 
     // get the API Key value
-    const apiKey: string = await this.getApiKey();
+    const apiKey: string | undefined = await this.getApiKey();
 
     const element: React.ReactElement<IStockInformationProps> = React.createElement(
       StockInformation,
@@ -117,13 +117,13 @@ export default class StockInformationWebPart extends BaseClientSideWebPart<IStoc
   }
 
   // method to retrieve the API Key for Alpha Vantage
-  private async getApiKey(): Promise<string> {
+  private async getApiKey(): Promise<string | undefined> {
 
     const apiKeyName: string = "PnP-Portal-AlphaVantage-API-Key";
 
     // try to get the API Key from the local session storage
-    let apiKey: string = sessionStorage.getItem(apiKeyName);
-
+    let apiKey: string | null = sessionStorage.getItem(apiKeyName);
+    
     // if it is not there, load it from the tenant properties
     // and store its value in the session storage
     if (!apiKey) {
@@ -134,11 +134,13 @@ export default class StockInformationWebPart extends BaseClientSideWebPart<IStoc
       const storageEntity: StorageEntity = await sp.web.getStorageEntity(apiKeyName);
       if (storageEntity && !storageEntity['odata.null']) {
         apiKey = storageEntity.Value;
-        sessionStorage.setItem(apiKeyName, apiKey);
+        if (apiKey) {
+          sessionStorage.setItem(apiKeyName, apiKey);
+        }
       }
     }
 
     // return the API Key value
-    return (apiKey);
+    return (apiKey || undefined);
   }
 }

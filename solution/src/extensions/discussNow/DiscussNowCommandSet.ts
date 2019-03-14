@@ -6,9 +6,6 @@ import {
   IListViewCommandSetListViewUpdatedParameters,
   IListViewCommandSetExecuteEventParameters
 } from '@microsoft/sp-listview-extensibility';
-import { Dialog } from '@microsoft/sp-dialog';
-
-import * as strings from 'DiscussNowCommandSetStrings';
 
 import ScheduleMeetingDialog from './components/ScheduleMeetingDialog';
 
@@ -44,7 +41,6 @@ export default class DiscussNowCommandSet extends BaseListViewCommandSet<IDiscus
     switch (event.itemId) {
       case 'DISCUSS_NOW':
 
-        const id: number = event.selectedRows[0].getValueByName("ID");
         const fileName: string = event.selectedRows[0].getValueByName("FileLeafRef");
         const filePath: string = event.selectedRows[0].getValueByName("ServerRedirectedEmbedUrl");
 

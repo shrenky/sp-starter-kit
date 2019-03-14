@@ -1,7 +1,7 @@
 import { ITask } from "./ITask";
 
 export interface IPersonalTasksState {
-  error: string;
+  error?: string;
   loading: boolean;
   tasks: ITask[];
 }

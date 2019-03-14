@@ -10,7 +10,9 @@ export class IndexNavigation extends React.Component<IIndexNavigationProps, {}> 
    * Event handler for selecting a tab in the navigation
    */
   private _handleIndexSelect = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>): void => {
-    this.props.onIndexSelect(item.props.linkText);
+    if (item && item.props.linkText) {
+      this.props.onIndexSelect(item.props.linkText);
+    }
   }
 
   public shouldComponentUpdate(nextProps: IIndexNavigationProps, nextState: {}, nextContext: any): boolean {

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import styles from './RecentContacts.module.scss';
 import { IRecentContactsProps, IRecentContactsState, IContacts, IContact } from '.';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { WebPartTitle } from '@pnp/spfx-controls-react/lib/WebPartTitle';
-import { MSGraphClient } from "@microsoft/sp-http";
 import * as strings from 'RecentContactsWebPartStrings';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/components/Spinner';
 import { List } from 'office-ui-fabric-react/lib/components/List';
@@ -15,7 +13,6 @@ export class RecentContacts extends React.Component<IRecentContactsProps, IRecen
 
     this.state = {
       recentContacts: [],
-      error: null,
       loading: true
     };
   }
@@ -26,7 +23,6 @@ export class RecentContacts extends React.Component<IRecentContactsProps, IRecen
   private _fetchRecentContacts(): void {
     if (this.props.graphClient) {
       this.setState({
-        error: null,
         loading: true
       });
 

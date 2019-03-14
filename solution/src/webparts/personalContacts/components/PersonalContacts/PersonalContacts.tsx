@@ -6,7 +6,6 @@ import { IContact, IContacts } from '..';
 import { WebPartTitle } from '@pnp/spfx-controls-react/lib/WebPartTitle';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/components/Spinner';
 import { List } from 'office-ui-fabric-react/lib/components/List';
-import { Persona, PersonaSize, IPersonaProps } from 'office-ui-fabric-react/lib/components/Persona';
 import { Link } from 'office-ui-fabric-react/lib/components/Link';
 import { Person } from '../Person';
 
@@ -35,7 +34,6 @@ export class PersonalContacts extends React.Component<IPersonalContactsProps, IP
     // update state to indicate loading and remove any previously loaded
     // messages
     this.setState({
-      error: null,
       loading: true,
       contacts: []
     });
@@ -78,27 +76,6 @@ export class PersonalContacts extends React.Component<IPersonalContactsProps, IP
     return <Person graphClient={this.props.graphClient} person={item} />;
   }
 
-  /**
-   * Renders the secondary field as mail
-   */
-  private _renderMail = (props: IPersonaProps): JSX.Element => {
-    if (props.secondaryText) {
-      return <Link href={`mailto:${props.secondaryText}`}>{props.secondaryText}</Link>;
-    }
-
-    return <div />;
-  }
-
-  /**
-   * Renders the tertiary field as mail
-   */
-  private _renderPhone = (props: IPersonaProps): JSX.Element => {
-    if (props.tertiaryText) {
-      return <Link href={`tel:${props.tertiaryText}`}>{props.tertiaryText}</Link>;
-    }
-
-    return <div />;
-  }
 
   public componentDidMount(): void {
     // load data initially after the component has been instantiated

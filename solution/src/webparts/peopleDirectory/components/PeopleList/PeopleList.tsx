@@ -16,8 +16,6 @@ export class PeopleList extends React.Component<IPeopleListProps, IPeopleListSta
 
     this.state = {
       showCallOut: false,
-      calloutElement: null,
-      person: null
     };
 
     //this._onPersonaClicked = this._onPersonaClicked.bind(this);
@@ -31,17 +29,17 @@ export class PeopleList extends React.Component<IPeopleListProps, IPeopleListSta
           (this.props.selectedIndex !== 'Search' ||
             (this.props.selectedIndex === 'Search' &&
               this.props.hasSearchQuery)) &&
-              // Show the 'No people found' message if no people have been retrieved
-              // and the user either selected a letter in the navigation or issued
-              // a search query (but not when navigated to the Search tab without
-              // providing a query yet)
+          // Show the 'No people found' message if no people have been retrieved
+          // and the user either selected a letter in the navigation or issued
+          // a search query (but not when navigated to the Search tab without
+          // providing a query yet)
           <div className='ms-textAlignCenter'>{strings.NoPeopleFoundLabel}</div>}
         {this.props.people.length > 0 &&
           // for each retrieved person, create a persona card with the retrieved
           // information
           //this.props.people.map(p => <Persona primaryText={p.name} secondaryText={p.email} tertiaryText={p.phone} imageUrl={p.photoUrl} imageAlt={p.name} size={PersonaSize.size72} />)
-          this.props.people.map((p,i) => {
-            const phone: string = p.phone && p.mobile ? `${p.phone}/${p.mobile}`: p.phone ? p.phone: p.mobile;
+          this.props.people.map((p, i) => {
+            const phone: string = p.phone && p.mobile ? `${p.phone}/${p.mobile}` : p.phone ? p.phone : p.mobile;
             // const toggleClassName: string = this.state.toggleClass ? `ms-Icon--ChromeClose ${styles.isClose}` : "ms-Icon--ContactInfo";
             return (
               <div className={styles.persona_card}>
@@ -49,20 +47,20 @@ export class PeopleList extends React.Component<IPeopleListProps, IPeopleListSta
                 <div id={`callout${i}`} onClick={this._onPersonaClicked(i, p)} className={styles.persona}>
                   <i className="ms-Icon ms-Icon--ContactInfo" aria-hidden="true"></i>
                 </div>
-                { this.state.showCallOut && this.state.calloutElement === i && (
-                <Callout
-                  className={this.state.showCallOut ? styles.calloutShow: styles.callout}
-                  gapSpace={16}
-                  target={`#callout${i}`}
-                  isBeakVisible={true}
-                  beakWidth={18}
-                  setInitialFocus={true}
-                  onDismiss={this._onCalloutDismiss}
-                  directionalHint={DirectionalHint.rightCenter}
-                  doNotLayer={false}
-                >
-                  <PeopleCallout person={this.state.person}></PeopleCallout>
-                </Callout>
+                {this.state.showCallOut && this.state.calloutElement === i && (
+                  <Callout
+                    className={this.state.showCallOut ? styles.calloutShow : styles.callout}
+                    gapSpace={16}
+                    target={`#callout${i}`}
+                    isBeakVisible={true}
+                    beakWidth={18}
+                    setInitialFocus={true}
+                    onDismiss={this._onCalloutDismiss}
+                    directionalHint={DirectionalHint.rightCenter}
+                    doNotLayer={false}
+                  >
+                    {this.state.person && <PeopleCallout person={this.state.person}></PeopleCallout>}
+                  </Callout>
                 )}
               </div>
             );

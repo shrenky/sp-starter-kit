@@ -1,3 +1,3 @@
 export interface IPersonState {
-  image: string;
+  image?: string;
 }

@@ -62,7 +62,7 @@ export default class BannerWebPart extends BaseClientSideWebPart<IBannerWebPartP
     if (imgVal) {
       const urlSplit = imgVal.split(".");
       if (urlSplit && urlSplit.length > 0) {
-        const extName = urlSplit.pop().toLowerCase();
+        const extName = urlSplit.pop()!.toLowerCase();
         if (["jpg", "jpeg", "png", "gif"].indexOf(extName) === -1) {
           return strings.BannerValidationNotImage;
         }

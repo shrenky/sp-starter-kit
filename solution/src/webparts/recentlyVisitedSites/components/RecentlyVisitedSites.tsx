@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './RecentlyVisitedSites.module.scss';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
-import { escape, uniqBy } from '@microsoft/sp-lodash-subset';
+import { uniqBy } from '@microsoft/sp-lodash-subset';
 import * as strings from 'RecentlyVisitedSitesWebPartStrings';
 import { Link } from 'office-ui-fabric-react/lib/components/Link';
 import { IRecentlyVisitedSitesProps, IRecentlyVisitedSitesState, IRecentWebs, IRecentWeb, IWebs } from '.';
@@ -17,7 +17,6 @@ export class RecentlyVisitedSites extends React.Component<IRecentlyVisitedSitesP
 
     this.state = {
       usedSites: [],
-      error: null,
       loading: true
     };
   }

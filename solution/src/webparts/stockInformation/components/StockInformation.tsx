@@ -8,8 +8,8 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import * as strings from 'StockInformationWebPartStrings';
 
 // import supporting types
-import { IStockInformationData, IStockData } from './IStockInformationData';
-import { IAVResults, IAVResultsMetadata, IAVResultsSeries } from './AlphaVantageResults';
+import { IStockInformationData } from './IStockInformationData';
+import { IAVResults, IAVResultsSeries } from './AlphaVantageResults';
 
 // import additional controls/components
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
@@ -28,8 +28,7 @@ export default class StockInformation extends React.Component<IStockInformationP
 
     // set initial state for the component: not loading, no stock information
     this.state = {
-      loading: false,
-      stockInfo: null
+      loading: false
     };
   }
 
@@ -73,8 +72,7 @@ export default class StockInformation extends React.Component<IStockInformationP
 
       // if we don't have the API Key, stop the Spinner
       this.setState({
-        loading: false,
-        stockInfo: null
+        loading: false
       });
       // and show a specific error
       this.props.errorHandler(strings.NoAPIKeyInTenantProperties);
@@ -205,7 +203,7 @@ export default class StockInformation extends React.Component<IStockInformationP
 
   public render(): React.ReactElement<IStockInformationProps> {
 
-    let contents: JSX.Element;
+    let contents: JSX.Element | undefined;
 
     // if we already have the configuration
     if (this.props.needsConfiguration === false &&
@@ -215,22 +213,22 @@ export default class StockInformation extends React.Component<IStockInformationP
         contents = <Spinner size={SpinnerSize.large} label={strings.LoadingDataLabel} />;
       } else {
         // show the Stock information, if we already have it
-        const lastStockData: IStockData = this.state.stockInfo != null ? this.state.stockInfo.lastData : null;
-        const previousClose: number = this.state.stockInfo != null ? this.state.stockInfo.previousClose : 0;
-        const difference: number = lastStockData.close - previousClose;
+        const lastStockDataClose: number = this.state.stockInfo ? this.state.stockInfo.lastData.close : 0;
+        const previousClose: number = this.state.stockInfo ? this.state.stockInfo.previousClose : 0;
+        const difference: number = lastStockDataClose - previousClose;
         const differencePercent: number = (difference / previousClose) * 100;
         contents = (
           <div className={styles.stock}>
             <div className={styles.stockSymbol}>{this.state.stockInfo.symbol}</div>
             <div>
               <span className={styles.stockTrend}>
-                { lastStockData.close > previousClose ?
+                { difference > 0 ?
                 <Icon iconName='Up' /> :
-                lastStockData.close < previousClose ?
+                difference < 0 ?
                 <Icon iconName='Down' /> :
                 null }
               </span>
-              <span className={styles.stockValue}>{ parseFloat(lastStockData.close.toString()).toFixed(2) } USD</span>
+              <span className={styles.stockValue}>{ parseFloat(lastStockDataClose.toString()).toFixed(2) } USD</span>
             </div>
             <div className={styles.stockInfo}>
               <span>{(difference >= 0 ? '+' : '-')}{ parseFloat(difference.toString()).toFixed(2) }</span>

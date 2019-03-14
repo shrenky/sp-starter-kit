@@ -10,7 +10,7 @@ export class Person extends React.Component<IPersonProps, IPersonState> {
     super(props);
 
     this.state = {
-      image: null
+      image: undefined
     };
   }
 
@@ -89,7 +89,7 @@ export class Person extends React.Component<IPersonProps, IPersonState> {
    */
   public render(): React.ReactElement<IPersonProps> {
     const { person } = this.props;
-    let phoneNr: string = null;
+    let phoneNr: string | undefined;
 
     if (person.businessPhones && person.businessPhones.length > 0) {
       phoneNr = person.businessPhones[0];
@@ -107,7 +107,7 @@ export class Person extends React.Component<IPersonProps, IPersonState> {
 
     return <Persona className={styles.persona}
       primaryText={person.displayName}
-      secondaryText={(person.emailAddresses && person.emailAddresses.length > 0) && person.emailAddresses[0].address}
+      secondaryText={(person.emailAddresses && person.emailAddresses.length > 0) ? person.emailAddresses[0].address:undefined}
       onRenderSecondaryText={this._renderMail}
       tertiaryText={phoneNr}
       onRenderTertiaryText={this._renderPhone}

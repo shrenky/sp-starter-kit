@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './WeatherInformation.module.scss';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 import {
   Spinner,
@@ -58,8 +57,7 @@ export default class WeatherInformation extends React.Component<IWeatherInformat
           // No weather information for the specified location has been found.
           // Notify the user that loading the data is finished.
           this.setState({
-            loading: false,
-            weatherInfo: null
+            loading: false
           });
           // Return an error message stating that no weather information has been found
           this.props.errorHandler(`${strings.NoWeatherInformationFoundMessage}${location}`);
@@ -68,8 +66,7 @@ export default class WeatherInformation extends React.Component<IWeatherInformat
         // An error has occurred when calling the weather API.
         // Notify the user that loading the data is finished
         this.setState({
-          loading: false,
-          weatherInfo: null
+          loading: false
         });
         // Return the error message
         this.props.errorHandler(error);
@@ -78,8 +75,7 @@ export default class WeatherInformation extends React.Component<IWeatherInformat
         // An exception has occurred when calling the weather API.
         // Notify the user that loading the data is finished
         this.setState({
-          loading: false,
-          weatherInfo: null
+          loading: false
         });
         // Return the exception message
         this.props.errorHandler(error);
@@ -103,7 +99,7 @@ export default class WeatherInformation extends React.Component<IWeatherInformat
   }
 
   public render(): React.ReactElement<IWeatherInformationProps> {
-    let contents: JSX.Element;
+    let contents: JSX.Element | undefined;
     // Check if the web part has been configured. Also check,
     // if the weather information has been initiated. This is
     // necessary, because the first time the component renders,

@@ -7,14 +7,12 @@ import styles from './MyLinks.module.scss';
 import * as strings from 'MyLinksStrings';
 
 // import additional controls/components
-import { BaseDialog, Dialog, IDialogConfiguration } from '@microsoft/sp-dialog';
+import { BaseDialog, IDialogConfiguration } from '@microsoft/sp-dialog';
 import {
   autobind,
   DefaultButton,
   TextField,
-  Label,
   CommandBar,
-  IContextualMenuItem,
   DetailsList,
   DetailsListLayoutMode,
   Selection,
@@ -92,7 +90,7 @@ class MyLinksDialogContent extends
 
     this._selection = new Selection({
       onSelectionChanged: () => {
-        let selectedLink: IMyLink = this._selection.getSelectedCount() !== 0 ? this._selection.getSelection()[0] as IMyLink : null;
+        let selectedLink: IMyLink | undefined = this._selection.getSelectedCount() !== 0 ? this._selection.getSelection()[0] as IMyLink : undefined;
         this.setState({ selectedLink: selectedLink });
       }
     });
@@ -240,12 +238,12 @@ class MyLinksDialogContent extends
     if (!this.state.addingNewItem) {
 
       let updatedLink: IMyLink = {
-        title: this.state.title,
-        url: this.state.url,
+        title: this.state.title!,
+        url: this.state.url!,
       };
 
       // update the selected item
-      this.state.links[this.state.links.indexOf(this.state.selectedLink)] = updatedLink;
+      this.state.links[this.state.links.indexOf(this.state.selectedLink!)] = updatedLink;
 
       // refresh the array of Links
       let updatedLinks: IMyLink[] = this.state.links.concat([]);
@@ -259,8 +257,8 @@ class MyLinksDialogContent extends
     } else {
 
       let newLink: IMyLink = {
-        title: this.state.title,
-        url: this.state.url,
+        title: this.state.title!,
+        url: this.state.url!,
       };
 
       // if we have a valid new link
@@ -315,7 +313,7 @@ class MyLinksDialogContent extends
       addingNewItem: true,
       title: "",
       url: "",
-      selectedLink: null,
+      selectedLink: undefined,
     });
   }
 
@@ -325,23 +323,25 @@ class MyLinksDialogContent extends
     this.setState({
       showDetailPanel: true,
       addingNewItem: false,
-      title: this.state.selectedLink.title,
-      url: this.state.selectedLink.url,
+      title: this.state.selectedLink ? this.state.selectedLink.title : "",
+      url: this.state.selectedLink ? this.state.selectedLink!.url : "",
     });
   }
 
   @autobind
   private deleteLink(): void {
-    // delete the selected link
-    this.state.links.splice(this.state.links.indexOf(this.state.selectedLink), 1);
+    // delete the selected link if it exists
+    if (this.state.selectedLink) {
+      this.state.links.splice(this.state.links.indexOf(this.state.selectedLink), 1);
 
-    // refresh the array of Links
-    let updatedLinks: IMyLink[] = this.state.links.concat([]);
+      // refresh the array of Links
+      let updatedLinks: IMyLink[] = this.state.links.concat([]);
 
-    // refresh the DetailsList view
-    this.setState({
-      links: updatedLinks
-    });
+      // refresh the DetailsList view
+      this.setState({
+        links: updatedLinks
+      });
+    }
   }
 }
 
@@ -358,7 +358,7 @@ export default class MyLinksDialog extends BaseDialog {
    */
   constructor(public links: Array<IMyLink>, public isSave?: boolean) {
     // Blocking or else click outside causes error in 1.7
-    super({isBlocking: true});
+    super({ isBlocking: true });
 
     // clone the initial list of links we've got
     this.initialLinks = (this.links != null) ? this.links.concat([]) : [];
